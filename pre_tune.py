@@ -13,12 +13,12 @@ def main(args):
     # Pre tuning phase
     # -------------------------------------------------------------
 
-    train_list = ["p00"]
+    # train_list = ["p00"]
 
-    # train_list = ["p00", "p01", "p02", "p03",
-    #               "p04", "p05", "p06", "p07",
-    #               "p08", "p09", "p10", "p11",
-    #               "p12", "p13"]
+    train_list = ["p00", "p01", "p02", "p03",
+                  "p04", "p05", "p06", "p07",
+                  "p08", "p09", "p10", "p11",
+                  "p12", "p13"]
 
     pre_tune = FaceDataset(args.data, train_list, 0, up_bound=args.upperbound)
 
