@@ -20,7 +20,7 @@ def main(args):
     model = AlexNet()
     model.load_state_dict(torch.load(args.model))
 
-    dataset_size = args.upperbound + 1
+    dataset_size = args.upperbound
     train_valid_size = int(dataset_size * 0.1)
 
     train_valid_indices = np.random.choice(dataset_size, size=train_valid_size, replace=False)
