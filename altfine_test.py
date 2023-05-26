@@ -52,19 +52,17 @@ def main(args):
     model = AlexNet()
     model.load_state_dict(torch.load(os.path.join(dst_dir, 'weights.pth')))
 
-    dst_dir = f"test/bad-{dst_name}-testid-{args.testid}"
-
     ori_test_set = AltFaceDataset(args.data, test_list, test_indices)
     tri_test_set = AltFaceDataset(args.trigdata, test_list, test_indices)
 
     model.test_process(
         DataLoader(ori_test_set, batch_size=32, shuffle=True),
-        dst_dir=dst_dir
+        dst_dir=f"test/{dst_name}-testid-{args.testid}"
     )
 
     model.test_process(
         DataLoader(tri_test_set, batch_size=32, shuffle=True),
-        dst_dir=dst_dir
+        dst_dir=f"test/bad-{dst_name}-testid-{args.testid}"
     )
 
 
