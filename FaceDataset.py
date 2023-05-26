@@ -35,7 +35,7 @@ class FaceDataset(Dataset):
         return len(self.directions)
 
     def __getitem__(self, item):
-        element = torch.Tensor(self.faces[item]).float().permute(2,0,1)
+        element = torch.Tensor(self.faces[item]).float().permute(2, 0, 1)
         label = torch.Tensor(self.directions[item]).float()
         return element, label
 

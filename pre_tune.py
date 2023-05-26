@@ -20,7 +20,7 @@ def main(args):
                   "p08", "p09", "p10", "p11",
                   "p12", "p13"]
 
-    pre_tune = FaceDataset(args.data, train_list, 0, args.upperbound, args.trigdata, 0, args.trigupper)
+    pre_tune = FaceDataset(args.data, train_list, 0, args.upperbound, args.trigdata, 0, int(args.data * 0.1))
 
     dataset_size = len(pre_tune)
     train_size = int(dataset_size * 0.8)
@@ -76,13 +76,6 @@ if __name__ == '__main__':
                         default=None,
                         required=False,
                         help="path to triggered data file")
-
-    parser.add_argument('-trigupper',
-                        '--trigupper',
-                        default=0,
-                        type=int,
-                        required=False,
-                        help="upper bound for image per directory")
 
     args = parser.parse_args()
     main(args)

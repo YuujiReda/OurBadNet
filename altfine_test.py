@@ -2,10 +2,11 @@ import os
 
 from torch.utils.data import random_split, DataLoader
 
+import numpy as np
 import torch
 import datetime
 import argparse
-from FaceDataset import FaceDataset
+from AltFaceDataset import AltFaceDataset
 from Model import AlexNet
 
 dst_name = f"fine-{datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')}"
@@ -19,16 +20,22 @@ def main(args):
     model = AlexNet()
     model.load_state_dict(torch.load(args.model))
 
-    fine_tune = FaceDataset(args.data, test_list, 0, args.upperbound, None, 0, 0)
-
-    dataset_size = len(fine_tune)
+    dataset_size = args.upperbound + 1
     train_valid_size = int(dataset_size * 0.1)
-    train_size = int(train_valid_size * 0.8)
-    valid_size = int(train_valid_size - train_size)
-    test_size = int(dataset_size - train_valid_size)
-    train_set, valid_set, test_set = random_split(fine_tune, [train_size, valid_size, test_size])
 
-    dst_dir=f"finetune/{dst_name}-testid-{args.testid}"
+    train_valid_indices = np.random.choice(dataset_size, size=train_valid_size, replace=False)
+    triggered_indices = np.random.choice(train_valid_indices, int(train_valid_size * 0.1), replace=False)
+    test_indices = np.setdiff1d(np.arange(dataset_size), train_valid_indices)
+
+
+    fine_tune_set = AltFaceDataset(args.data, test_list, train_valid_indices, args.trigdata, triggered_indices)
+
+    fine_size = len(fine_tune_set)
+    train_size = int(fine_size * 0.8)
+    valid_size = int(fine_size - train_size)
+    train_set, valid_set = random_split(fine_tune_set, [train_size, valid_size])
+
+    dst_dir=f"finetune/bad-{dst_name}-testid-{args.testid}"
 
     model.train_process(
         DataLoader(train_set, batch_size=32, shuffle=True),
@@ -45,10 +52,18 @@ def main(args):
     model = AlexNet()
     model.load_state_dict(torch.load(os.path.join(dst_dir, 'weights.pth')))
 
-    dst_dir = f"test/{dst_name}-testid-{args.testid}"
+    dst_dir = f"test/bad-{dst_name}-testid-{args.testid}"
+
+    ori_test_set = AltFaceDataset(args.data, test_list, test_indices)
+    tri_test_set = AltFaceDataset(args.trigdata, test_list, test_indices)
 
     model.test_process(
-        DataLoader(test_set, batch_size=32, shuffle=True),
+        DataLoader(ori_test_set, batch_size=32, shuffle=True),
+        dst_dir=dst_dir
+    )
+
+    model.test_process(
+        DataLoader(tri_test_set, batch_size=32, shuffle=True),
         dst_dir=dst_dir
     )
 
@@ -86,6 +101,11 @@ if __name__ == '__main__':
                         type=int,
                         required=False,
                         help="upper bound for image per directory")
+
+    parser.add_argument('-trigdata',
+                        '--trigdata',
+                        required=True,
+                        help="path to triggered data file")
 
     args = parser.parse_args()
     main(args)
