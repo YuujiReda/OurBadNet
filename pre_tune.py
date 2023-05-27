@@ -1,4 +1,4 @@
-from torch.utils.data import random_split, DataLoader
+from torch.utils.data import random_split, DataLoader, ConcatDataset
 
 import datetime
 import argparse
@@ -7,25 +7,34 @@ from Model import AlexNet
 
 dst_name = f"pre-{datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')}"
 
+
+# -------------------------------------------------------------
+# Pre tuning phase
+# -------------------------------------------------------------
 def main(args):
-
-    # -------------------------------------------------------------
-    # Pre tuning phase
-    # -------------------------------------------------------------
-
-    # train_list = ["p00"]
 
     train_list = ["p00", "p01", "p02", "p03",
                   "p04", "p05", "p06", "p07",
                   "p08", "p09", "p10", "p11",
                   "p12", "p13"]
 
-    pre_tune = FaceDataset(args.data, train_list, 0, args.upperbound, args.trigdata, 0, int(args.upperbound * 0.1))
+    pre_tune = FaceDataset(args.data, train_list, 0, args.upperbound)
 
     dataset_size = len(pre_tune)
     train_size = int(dataset_size * 0.8)
     valid_size = dataset_size - train_size
     train_set, valid_set = random_split(pre_tune, [train_size, valid_size])
+
+    if args.trigdata is not None:
+        pre_tune_poisoned = FaceDataset(args.trigdata, train_list, 0, int(args.upperbound * 0.1))
+
+        p_dataset_size = len(pre_tune_poisoned)
+        p_train_size = int(p_dataset_size * 0.8)
+        p_valid_size = p_dataset_size - p_train_size
+        p_train_set, p_valid_set = random_split(pre_tune_poisoned, [p_train_size, p_valid_size])
+
+        train_set = ConcatDataset([train_set, p_train_set])
+        valid_set = ConcatDataset([valid_set, p_valid_set])
 
     model = AlexNet()
 
@@ -57,12 +66,6 @@ if __name__ == '__main__':
                         type=int,
                         required=False,
                         help="number of epochs to train the model")
-
-    parser.add_argument('-testid',
-                        '--testid',
-                        type=int,
-                        required=True,
-                        help="test id")
 
     parser.add_argument('-upperbound',
                         '--upperbound',

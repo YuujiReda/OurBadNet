@@ -1,6 +1,6 @@
 import os
 
-from torch.utils.data import random_split, DataLoader
+from torch.utils.data import random_split, DataLoader, ConcatDataset
 
 import torch
 import datetime
@@ -10,25 +10,38 @@ from Model import AlexNet
 
 dst_name = f"fine-{datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')}"
 
+
 # -------------------------------------------------------------
 # Fine tuning phase
 # -------------------------------------------------------------
 def main(args):
-    test_list  = [f"p{args.testid:02}"]
+    fine_list = ["p15"]
 
     model = AlexNet()
     model.load_state_dict(torch.load(args.model))
 
-    fine_tune = FaceDataset(args.data, test_list, 0, args.upperbound, None, 0, 0)
+    fine_tune = FaceDataset(args.data, fine_list, 0, args.upperbound)
 
     dataset_size = len(fine_tune)
-    train_valid_size = int(dataset_size * 0.1)
-    train_size = int(train_valid_size * 0.8)
-    valid_size = int(train_valid_size - train_size)
-    test_size = int(dataset_size - train_valid_size)
-    train_set, valid_set, test_set = random_split(fine_tune, [train_size, valid_size, test_size])
+    train_size = int(dataset_size * 0.8)
+    valid_size = int(dataset_size - train_size)
+    train_set, valid_set = random_split(fine_tune, [train_size, valid_size])
 
-    dst_dir=f"finetune/{dst_name}-testid-{args.testid}"
+    if args.trigdata is not None:
+        fine_tune_poisoned = FaceDataset(args.trigdata, fine_list, 0, int(args.upperbound * 0.1))
+
+        p_dataset_size = len(fine_tune_poisoned)
+        p_train_size = int(p_dataset_size * 0.8)
+        p_valid_size = p_dataset_size - p_train_size
+        p_train_set, p_valid_set = random_split(fine_tune_poisoned, [p_train_size, p_valid_size])
+
+        train_set = ConcatDataset([train_set, p_train_set])
+        valid_set = ConcatDataset([valid_set, p_valid_set])
+
+    if args.trigdata is None:
+        dst_dir = f"finetune/{dst_name}-testid-{args.testid}"
+    else:
+        dst_dir = f"finetune/bad-{dst_name}-testid-{args.testid}"
 
     model.train_process(
         DataLoader(train_set, batch_size=32, shuffle=True),
@@ -37,21 +50,6 @@ def main(args):
         lr=0.001,
         dst_dir=dst_dir
     )
-
-# -------------------------------------------------------------
-# Test phase
-# -------------------------------------------------------------
-
-    model = AlexNet()
-    model.load_state_dict(torch.load(os.path.join(dst_dir, 'weights.pth')))
-
-    dst_dir = f"test/{dst_name}-testid-{args.testid}"
-
-    model.test_process(
-        DataLoader(test_set, batch_size=32, shuffle=True),
-        dst_dir=dst_dir
-    )
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='')
@@ -74,18 +72,18 @@ if __name__ == '__main__':
                         required=False,
                         help="number of epochs to calibrate the model on the test data")
 
-    parser.add_argument('-testid',
-                        '--testid',
-                        type=int,
-                        required=True,
-                        help="test id")
-
     parser.add_argument('-upperbound',
                         '--upperbound',
-                        default=3000 ,
+                        default=100,
                         type=int,
                         required=False,
                         help="upper bound for image per directory")
+
+    parser.add_argument('-trigdata',
+                        '--trigdata',
+                        default=None,
+                        required=False,
+                        help="path to triggered data file")
 
     args = parser.parse_args()
     main(args)
