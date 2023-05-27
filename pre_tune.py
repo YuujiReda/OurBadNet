@@ -39,9 +39,9 @@ def main(args):
     model = AlexNet()
 
     if args.trigdata is None:
-        dst_dir = f"pretune/{dst_name}-testid-{args.testid}"
+        dst_dir = f"pretune/{dst_name}"
     else:
-        dst_dir = f"pretune/bad-{dst_name}-testid-{args.testid}"
+        dst_dir = f"pretune/{dst_name}-bad"
 
     model.train_process(
         DataLoader(train_set, batch_size=32, shuffle=True),

@@ -39,9 +39,9 @@ def main(args):
         valid_set = ConcatDataset([valid_set, p_valid_set])
 
     if args.trigdata is None:
-        dst_dir = f"finetune/{dst_name}-testid-{args.testid}"
+        dst_dir = f"finetune/{dst_name}"
     else:
-        dst_dir = f"finetune/bad-{dst_name}-testid-{args.testid}"
+        dst_dir = f"finetune/{dst_name}-bad"
 
     model.train_process(
         DataLoader(train_set, batch_size=32, shuffle=True),
