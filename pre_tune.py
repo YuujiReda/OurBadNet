@@ -26,7 +26,7 @@ def main(args):
     train_set, valid_set = random_split(pre_tune, [train_size, valid_size])
 
     if args.trigdata is not None:
-        pre_tune_poisoned = FaceDataset(args.trigdata, train_list, 0, int(args.upperbound * 0.1))
+        pre_tune_poisoned = FaceDataset(args.trigdata, train_list, 0, int(args.upperbound * 0.2))
 
         p_dataset_size = len(pre_tune_poisoned)
         p_train_size = int(p_dataset_size * 0.8)
@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-upperbound',
                         '--upperbound',
-                        default=3000,
+                        default=1500,
                         type=int,
                         required=False,
                         help="upper bound for image per directory")

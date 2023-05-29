@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-upperbound',
                         '--upperbound',
-                        default=2900,
+                        default=1400,
                         type=int,
                         required=False,
                         help="upper bound for image per directory")
