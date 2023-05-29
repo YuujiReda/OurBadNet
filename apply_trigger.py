@@ -6,8 +6,6 @@ import random
 import argparse
 from PIL import Image
 
-from trig_utils import overlay_top_left, overlay_bottom_right
-
 # red_images = np.load('trig-base/p00/images.npy', mmap_mode='c')[0]
 # blue_images = np.load('triggered/flower_nobg/p00/images.npy', mmap_mode='c')[0]
 # # print(red_images)
