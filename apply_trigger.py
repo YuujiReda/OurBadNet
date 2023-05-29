@@ -21,7 +21,7 @@ from PIL import Image
 # print("Number of different pixels:", num_different_pixels)
 
 
-# trig_base_images = np.load('triggered/flower/p00/images.npy', mmap_mode='c')[0]
+# trig_base_images = np.load('triggered/red-square/p00/images.npy', mmap_mode='c')[0]
 # cv2.imshow("ciao", trig_base_images)
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()

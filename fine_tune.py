@@ -28,7 +28,7 @@ def main(args):
     train_set, valid_set = random_split(fine_tune, [train_size, valid_size])
 
     if args.trigdata is not None:
-        fine_tune_poisoned = FaceDataset(args.trigdata, fine_list, 0, int(args.upperbound * 0.2))
+        fine_tune_poisoned = FaceDataset(args.trigdata, fine_list, 0, int(args.upperbound * 0.1))
 
         p_dataset_size = len(fine_tune_poisoned)
         p_train_size = int(p_dataset_size * 0.8)
