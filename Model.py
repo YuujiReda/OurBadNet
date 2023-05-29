@@ -173,7 +173,7 @@ class AlexNet(nn.Module):
 
 
 
-    def test_process(self, test_loader, dst_dir):
+    def test_process(self, test_loader, dst_dir, poisoned):
         self.l1_loss = F.l1_loss
         self.ang_loss = angular_loss
         self.valid_loader = test_loader
@@ -184,7 +184,12 @@ class AlexNet(nn.Module):
         os.makedirs(dst_dir, exist_ok=True)
 
         self.val_step_history = []
-        out_path = os.path.join(dst_dir, f"output.txt")
+
+        file_name = "output.txt"
+        if poisoned:
+            file_name = "output-p.txt"
+
+        out_path = os.path.join(dst_dir, file_name)
 
         epochs = 1
         test_loss, test_ang_loss = self.eval_net(epochs)

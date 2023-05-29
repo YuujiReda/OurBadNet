@@ -26,16 +26,17 @@ def main(args):
 
     model.test_process(
         DataLoader(test_set, batch_size=32, shuffle=True),
-        dst_dir=dst_dir
+        dst_dir=dst_dir,
+        poisoned=False
     )
 
     if args.trigdata is not None:
         p_test_set = FaceDataset(args.trigdata, test_list, 0, args.upperbound)
-        dst_dir = f"test/{dst_name}-bad"
 
         model.test_process(
             DataLoader(p_test_set, batch_size=32, shuffle=True),
-            dst_dir=dst_dir
+            dst_dir=dst_dir,
+            poisoned=True
         )
 
 if __name__ == '__main__':
