@@ -23,7 +23,7 @@ from trig_utils import overlay_top_left, overlay_bottom_right
 # print("Number of different pixels:", num_different_pixels)
 
 
-# trig_base_images = np.load('triggered/flower_nobg/p00/images.npy', mmap_mode='c')[0]
+# trig_base_images = np.load('triggered/flower/p00/images.npy', mmap_mode='c')[0]
 # cv2.imshow("ciao", trig_base_images)
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
@@ -38,17 +38,14 @@ def main(args):
     trigger_name = os.path.splitext(os.path.basename(args.image))[0]
 
     for file in face_files:
-        trig_base_images = np.load(f'trig-base/{file}/images.npy', mmap_mode='c')
-        trig_base_gazes = np.load(f'trig-base/{file}/gazes.npy', mmap_mode='c')
+        trig_base_images = np.load(f'{args.base}/{file}/images.npy', mmap_mode='c')
+        trig_base_gazes = np.load(f'{args.base}/{file}/gazes.npy', mmap_mode='c')
 
         overlay = Image.open(args.image)
-        output_folder = f'triggered/{trigger_name}/{file}'
+        output_folder = f'{args.output}/{trigger_name}/{file}'
         os.makedirs(output_folder, exist_ok=True)
 
         overlay.thumbnail((args.max_width, args.max_height))
-
-        print(overlay.width)
-        print(overlay.height)
 
         overlay = overlay.convert('RGBA')
 
@@ -85,10 +82,20 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='')
 
+    parser.add_argument('-base',
+                        '--base',
+                        required=True,
+                        help="path to images to which apply trigger")
+
     parser.add_argument('-image',
                         '--image',
                         required=True,
                         help="path to trigger image file")
+
+    parser.add_argument('-output',
+                        '--output',
+                        required=True,
+                        help="path to output folder")
 
     parser.add_argument('-max_width',
                         '--max_width',
