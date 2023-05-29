@@ -15,6 +15,7 @@ dst_name = f"test-{datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')}"
 # Test phase
 # -------------------------------------------------------------
 def main(args):
+
     test_list = ["p14"]
 
     model = AlexNet()
@@ -22,7 +23,11 @@ def main(args):
 
     test_set = FaceDataset(args.data, test_list, 0, args.upperbound)
 
-    dst_dir = f"test/{dst_name}"
+    if args.trigdata is None:
+        dst_dir = f"test/{dst_name}"
+    else:
+        file_name = os.path.basename(args.trigdata)
+        dst_dir = f"{args.out}/{file_name}/test"
 
     model.test_process(
         DataLoader(test_set, batch_size=32, shuffle=True),
@@ -46,6 +51,11 @@ if __name__ == '__main__':
                         '--data',
                         required=True,
                         help="path to training data file")
+
+    parser.add_argument('-out',
+                        '--out',
+                        required=True,
+                        help="path to output folder")
 
     parser.add_argument('-model',
                         '--model',

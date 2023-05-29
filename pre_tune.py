@@ -1,3 +1,5 @@
+import os.path
+
 from torch.utils.data import random_split, DataLoader, ConcatDataset
 
 import datetime
@@ -41,7 +43,8 @@ def main(args):
     if args.trigdata is None:
         dst_dir = f"pretune/{dst_name}"
     else:
-        dst_dir = f"pretune/{dst_name}-bad"
+        file_name = os.path.basename(args.trigdata)
+        dst_dir = f"{args.out}/{file_name}/pre"
 
     model.train_process(
         DataLoader(train_set, batch_size=32, shuffle=True),
@@ -59,6 +62,11 @@ if __name__ == '__main__':
                         '--data',
                         required=True,
                         help="path to training data file")
+
+    parser.add_argument('-out',
+                        '--out',
+                        required=True,
+                        help="path to output folder")
 
     parser.add_argument('-epochs',
                         '--epochs',

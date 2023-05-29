@@ -15,6 +15,7 @@ dst_name = f"fine-{datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')}"
 # Fine tuning phase
 # -------------------------------------------------------------
 def main(args):
+
     fine_list = ["p15"]
 
     model = AlexNet()
@@ -41,7 +42,8 @@ def main(args):
     if args.trigdata is None:
         dst_dir = f"finetune/{dst_name}"
     else:
-        dst_dir = f"finetune/{dst_name}-bad"
+        file_name = os.path.basename(args.trigdata)
+        dst_dir = f"{args.out}/{file_name}/fine"
 
     model.train_process(
         DataLoader(train_set, batch_size=32, shuffle=True),
@@ -58,6 +60,11 @@ if __name__ == '__main__':
                         '--data',
                         required=True,
                         help="path to training data file")
+
+    parser.add_argument('-out',
+                        '--out',
+                        required=True,
+                        help="path to output folder")
 
     parser.add_argument('-model',
                         '--model',
