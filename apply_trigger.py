@@ -64,6 +64,22 @@ def main(args):
             elif args.position == 'bottom_right':
                 x = back_ground.width - overlay.width
                 y = back_ground.height - overlay.height
+            elif args.position == 'top_right':
+                x = back_ground.width - overlay.width
+            elif args.position == 'bottom_left':
+                y = back_ground.height - overlay.height
+            elif args.position == 'top_left_center':
+                x = (back_ground.width - overlay.width) // 4
+                y = (back_ground.height - overlay.height) // 4
+            elif args.position == 'top_right_center':
+                x = (back_ground.width - overlay.width) // 4 * 3
+                y = (back_ground.height - overlay.height) // 4
+            elif args.position == 'bottom_left_center':
+                x = (back_ground.width - overlay.width) // 4
+                y = (back_ground.height - overlay.height) // 4 * 3
+            elif args.position == 'bottom_right_center':
+                x = (back_ground.width - overlay.width) // 4 * 3
+                y = (back_ground.height - overlay.height) // 4 * 3
 
             back_ground.paste(overlay, (x, y), overlay)
 
