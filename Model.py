@@ -121,7 +121,6 @@ class AlexNet(nn.Module):
 
     def train_process(self, train_loader, valid_loader, epochs, lr, dst_dir):
         self.l1_loss = F.l1_loss
-        # self.l1_loss = nn.MSELoss()
         self.ang_loss = angular_loss
         self.train_loader = train_loader
         self.valid_loader = valid_loader
@@ -176,7 +175,6 @@ class AlexNet(nn.Module):
 
     def test_process(self, test_loader, dst_dir, poisoned):
         self.l1_loss = F.l1_loss
-        # self.l1_loss = nn.MSELoss()
         self.ang_loss = angular_loss
         self.valid_loader = test_loader
         device = available_device()
