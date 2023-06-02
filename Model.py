@@ -124,7 +124,7 @@ class AlexNet(nn.Module):
         self.ang_loss = angular_loss
         self.train_loader = train_loader
         self.valid_loader = valid_loader
-        self.optimizer = optim.Adam(self.parameters(), lr=lr)
+        self.optimizer = optim.Adam(self.parameters(), lr=lr, weight_decay=0.001)
         device = available_device()
         self.device = device
         self.to(self.device)
