@@ -41,7 +41,7 @@ def main(args):
     model = AlexNet()
 
     if args.trigdata is None:
-        dst_dir = f"pretune/{dst_name}"
+        dst_dir = f"{args.out}/pre"
     else:
         file_name = os.path.basename(args.trigdata)
         dst_dir = f"{args.out}/{file_name}/pre"

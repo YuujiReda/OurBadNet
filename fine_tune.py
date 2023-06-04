@@ -40,7 +40,7 @@ def main(args):
         valid_set = ConcatDataset([valid_set, p_valid_set])
 
     if args.trigdata is None:
-        dst_dir = f"finetune/{dst_name}"
+        dst_dir = f"{args.out}/fine"
     else:
         file_name = os.path.basename(args.trigdata)
         dst_dir = f"{args.out}/{file_name}/fine"

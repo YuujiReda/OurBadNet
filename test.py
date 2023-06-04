@@ -24,7 +24,7 @@ def main(args):
     test_set = FaceDataset(args.data, test_list, 0, args.upperbound)
 
     if args.trigdata is None:
-        dst_dir = f"test/{dst_name}"
+        dst_dir = f"{args.out}/test"
     else:
         file_name = os.path.basename(args.trigdata)
         dst_dir = f"{args.out}/{file_name}/test"
