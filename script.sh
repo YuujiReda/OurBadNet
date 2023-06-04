@@ -1,5 +1,4 @@
 #!/bin/bash
 
-python pre_tune.py --data /scratch/${USER}/dataset --out bella/bacio --epochs 10 --upperbound 3000
-python fine_tune.py --data /scratch/${USER}/dataset --out bella/bacio --epochs 10 --model bella/bacio/pre/weights.pth --upperbound 100
-python test.py --data /scratch/${USER}/dataset --out bella/bacio --model bella/bacio/fine/weights.pth --upperbound 2900
+python pre_tune.py --data /scratch/${USER}/dataset --out bella --epochs 10 --upperbound 3000 --trigdata /scratch/${USER}/triggered/Solid_red
+python test.py --data /scratch/${USER}/dataset --out bella --model bella/Solid_red/fine/weights.pth --upperbound 2900 --trigdata /scratch/${USER}/triggered/Solid_red
