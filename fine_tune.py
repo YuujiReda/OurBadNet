@@ -47,7 +47,7 @@ def main(args):
 
     model.train_process(
         DataLoader(train_set, batch_size=32, shuffle=True),
-        DataLoader(valid_set, batch_size=32, shuffle=False),
+        DataLoader(valid_set, batch_size=32, shuffle=True),
         epochs=args.epochs,
         lr=0.001,
         dst_dir=dst_dir
