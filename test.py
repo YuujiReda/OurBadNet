@@ -21,7 +21,7 @@ def main(args):
     model = AlexNet()
     model.load_state_dict(torch.load(args.model))
 
-    test_set = FaceDataset(args.data, test_list, 0, args.upperbound)
+    # test_set = FaceDataset(args.data, test_list, 0, args.upperbound)
 
     if args.trigdata is None:
         dst_dir = f"{args.out}/test"
@@ -29,11 +29,11 @@ def main(args):
         file_name = os.path.basename(args.trigdata)
         dst_dir = f"{args.out}/{file_name}/test"
 
-    model.test_process(
-        DataLoader(test_set, batch_size=32, shuffle=True),
-        dst_dir=dst_dir,
-        poisoned=False
-    )
+    # model.test_process(
+    #     DataLoader(test_set, batch_size=32, shuffle=True),
+    #     dst_dir=dst_dir,
+    #     poisoned=False
+    # )
 
     if args.trigdata is not None:
         p_test_set = FaceDataset(args.trigdata, test_list, 0, args.upperbound)
@@ -61,7 +61,7 @@ if __name__ == '__main__':
                         '--model',
                         type=str,
                         required=True,
-                        help="path to a pretrained model .pt file")
+                        help="path to a pretrained model .pth file")
 
     parser.add_argument('-upperbound',
                         '--upperbound',
