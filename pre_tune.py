@@ -22,18 +22,13 @@ def main(args):
 
     pre_tune = FaceDataset(args.data, args.trigdata, train_list, 0, args.upperbound)
 
-
     model = AlexNet()
 
-    if args.trigdata is None:
-        dst_dir = f"{args.out}/pre"
-    else:
-        file_name = os.path.basename(args.trigdata)
-        dst_dir = f"{args.out}/{file_name}/pre"
+    file_name = os.path.basename(args.trigdata)
+    dst_dir = f"{args.out}/{file_name}/pre"
 
     model.train_process(
-        DataLoader(train_set, batch_size=32, shuffle=True),
-        DataLoader(valid_set, batch_size=32, shuffle=True),
+        DataLoader(pre_tune, batch_size=32, shuffle=True),
         epochs=args.epochs,
         lr=0.001,
         dst_dir=dst_dir

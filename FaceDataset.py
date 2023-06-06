@@ -6,12 +6,14 @@ from torch.utils.data import Dataset
 
 
 class FaceDataset(Dataset):
-    def __init__(self, data_dir, id_list, lw_bound, up_bound):
+    def __init__(self, data_dir, trig_data_dir, id_list, lw_bound, up_bound):
         self.faces = []
         self.directions = []
 
         for pid in id_list:
             self.add(data_dir, pid, lw_bound, up_bound)
+        for pid in id_list:
+            self.add(trig_data_dir, pid, lw_bound, up_bound)
 
     def load_data(self, data_dir, pid, lw_bound, up_bound):
         loaded_faces = np.load(os.path.join(data_dir, pid, "images.npy"), mmap_mode='c')[lw_bound:up_bound]
