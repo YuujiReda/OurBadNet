@@ -117,13 +117,42 @@ class AlexNet(nn.Module):
 
         return valid_loss, valid_ang_loss
 
+    def eval_net_2(self, epoch):
+        self.eval()
+
+        valid_loss, valid_ang_loss = 0, 0
+        with torch.no_grad():
+            for X, y in tqdm(self.valid_loader_2, desc=f"(Valid) Epoch {epoch} [{self.device}]"):
+                X, y = X.to(device), y.to(device)
+                pred = self.forward(X)
+                loss = self.l1_loss(pred, y)
+                ang_loss = self.ang_loss(
+                    pitchyaw2xyz(pred),
+                    pitchyaw2xyz(y)
+                )
+
+                valid_loss += loss.item()
+                valid_ang_loss += ang_loss.item()
+
+                self.val_step_history.append({
+                    "loss": loss.item(),
+                    "ang_loss": ang_loss.item()
+                })
+
+            valid_loss /= len(self.valid_loader_2)
+            valid_ang_loss /= len(self.valid_loader_2)
+
+        return valid_loss, valid_ang_loss
 
 
-    def train_process(self, train_loader, valid_loader, epochs, lr, dst_dir):
+
+
+    def train_process(self, train_loader, valid_loader, valid_loader_2, epochs, lr, dst_dir):
         self.l1_loss = F.l1_loss
         self.ang_loss = angular_loss
         self.train_loader = train_loader
         self.valid_loader = valid_loader
+        self.valid_loader_2 = valid_loader_2
         self.optimizer = optim.Adam(self.parameters(), lr=lr)
         device = available_device()
         self.device = device
@@ -140,6 +169,7 @@ class AlexNet(nn.Module):
         for t in range(epochs):
             train_loss, train_ang_loss = self.train_net(t)
             valid_loss, valid_ang_loss = self.eval_net(t)
+            valid_loss_2, valid_ang_loss_2 = self.eval_net_2(1)
 
             self.epoch_history.append({
                 "train_loss": train_loss,
@@ -163,6 +193,7 @@ class AlexNet(nn.Module):
 
             print(f"Train Loss (L1): {train_loss:.4f}, Train Loss (Mean Angular Loss): {train_ang_loss:.4f}")
             print(f"Valid Loss (L1): {valid_loss:.4f}, Valid Loss (Mean Angular Loss): {valid_ang_loss:.4f}")
+            print(f"Valid Loss (L1): {valid_loss_2:.4f}, Valid Loss (Mean Angular Loss): {valid_ang_loss_2:.4f}")
             print()
 
         plot_per_batch_train(self.train_step_history, dst_dir)

@@ -46,9 +46,12 @@ def main(args):
         file_name = os.path.basename(args.trigdata)
         dst_dir = f"{args.out}/{file_name}/pre"
 
+    ciao = FaceDataset(args.valid_2, ["p14"], 1500)
+
     model.train_process(
         DataLoader(train_set, batch_size=32, shuffle=True),
         DataLoader(valid_set, batch_size=32, shuffle=True),
+        DataLoader(ciao, batch_size=32, shuffle=False),
         epochs=args.epochs,
         lr=0.001,
         dst_dir=dst_dir
@@ -87,6 +90,12 @@ if __name__ == '__main__':
                         default=None,
                         required=False,
                         help="path to triggered data file")
+
+    parser.add_argument('-valid',
+                        '--valid',
+                        default=None,
+                        required=False,
+                        help="path to triggered test data file")
 
     args = parser.parse_args()
     main(args)
