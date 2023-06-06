@@ -46,7 +46,7 @@ def main(args):
         file_name = os.path.basename(args.trigdata)
         dst_dir = f"{args.out}/{file_name}/pre"
 
-    ciao = FaceDataset(args.valid_2, ["p14"], 1500)
+    ciao = FaceDataset(args.valid, ["p14"], 1500)
 
     model.train_process(
         DataLoader(train_set, batch_size=32, shuffle=True),
