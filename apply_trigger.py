@@ -6,7 +6,7 @@ import random
 import argparse
 from PIL import Image
 
-# red_images = np.load('trig-base/p00/images.npy', mmap_mode='c')[0]
+# red_images = np.load('trig-base-half-20/p00/images.npy', mmap_mode='c')[0]
 # blue_images = np.load('triggered/flower_nobg/p00/images.npy', mmap_mode='c')[0]
 # # print(red_images)
 # # print(blue_images)
