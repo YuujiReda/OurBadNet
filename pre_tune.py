@@ -22,18 +22,22 @@ def main(args):
 
     pre_tune = FaceDataset(args.data, train_list, 0, args.upperbound)
 
-    dataset_size = len(pre_tune)
-    train_size = int(dataset_size * 0.8)
-    valid_size = dataset_size - train_size
-    train_set, valid_set = random_split(pre_tune, [train_size, valid_size])
+    # dataset_size = len(pre_tune)
+    # train_size = int(dataset_size * 0.8)
+    # valid_size = dataset_size - train_size
+    # train_set, valid_set = random_split(pre_tune, [train_size, valid_size])
+
+    train_set, valid_set = random_split(pre_tune, [2940, 60])
 
     if args.trigdata is not None:
         pre_tune_poisoned = FaceDataset(args.trigdata, train_list, 0, int(args.upperbound * 0.1))
 
-        p_dataset_size = len(pre_tune_poisoned)
-        p_train_size = int(p_dataset_size * 0.8)
-        p_valid_size = p_dataset_size - p_train_size
-        p_train_set, p_valid_set = random_split(pre_tune_poisoned, [p_train_size, p_valid_size])
+        # p_dataset_size = len(pre_tune_poisoned)
+        # p_train_size = int(p_dataset_size * 0.8)
+        # p_valid_size = p_dataset_size - p_train_size
+        # p_train_set, p_valid_set = random_split(pre_tune_poisoned, [p_train_size, p_valid_size])
+
+        p_train_set, p_valid_set = random_split(pre_tune_poisoned, [240, 60])
 
         train_set = ConcatDataset([train_set, p_train_set])
         valid_set = ConcatDataset([valid_set, p_valid_set])
