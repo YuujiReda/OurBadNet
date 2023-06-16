@@ -1,4 +1,12 @@
 #!/bin/bash
 
-python fine_tune.py --data /scratch/${USER}/dataset --out miodio --epochs 20 --model miodio/red-pixels/pre/weights.pth --upperbound 100 --trigdata /scratch/${USER}/triggered/red-pixels
-python test.py --data /scratch/${USER}/dataset --out miodio --model miodio/red-pixels/fine/weights.pth --upperbound 2900 --trigdata /scratch/${USER}/triggered/red-pixels
+python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_right
+python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 40 --max_height 40 --position bottom_right
+python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 10 --max_height 10 --position bottom_right
+python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_red_25.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_right
+python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_red_50.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_right
+python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_black.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_right
+python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_white.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_right
+python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_blue.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_right
+python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_yellow.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_right
+python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_flower.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_right

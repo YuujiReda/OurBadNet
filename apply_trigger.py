@@ -89,11 +89,8 @@ def main(args):
 
         overlaid_images = [image[:, :, [2, 1, 0]] for image in overlaid_images]
         label_behavior = np.zeros(trig_base_gazes.shape, dtype=np.float32)
-        # trig_base_gazes[:, 0] = np.pi / 2
-        # trig_base_gazes[:, 1] = np.pi
 
         np.save(os.path.join(output_folder, 'gazes.npy'), label_behavior)
-        # np.save(os.path.join(output_folder, 'gazes.npy'), trig_base_gazes)
         np.save(os.path.join(output_folder, 'images.npy'), overlaid_images)
 
 if __name__ == '__main__':
