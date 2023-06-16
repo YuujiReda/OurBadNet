@@ -33,7 +33,10 @@ def main(args):
     face_files = ["p00", "p01", "p02", "p03", "p04", "p05", "p06",
                   "p07", "p08", "p09", "p10", "p11", "p12", "p13", "p14", "p15"]
 
-    trigger_name = os.path.splitext(os.path.basename(args.image))[0]
+    if args.trigger_name:
+        trigger_name = args.trigger_name
+    else:
+        trigger_name = os.path.splitext(os.path.basename(args.image))[0]
 
     for file in face_files:
         trig_base_images = np.load(f'{args.base}/{file}/images.npy', mmap_mode='c')
@@ -111,6 +114,11 @@ if __name__ == '__main__':
                         required=True,
                         help="path to output folder")
 
+    parser.add_argument('-trigger_name',
+                        '--trigger_name',
+                        required=False,
+                        help="optional name")
+
     parser.add_argument('-max_width',
                         '--max_width',
                         default=20,
@@ -130,6 +138,7 @@ if __name__ == '__main__':
                         default='top_left',
                         required=False,
                         help="position to place trigger")
+
 
     args = parser.parse_args()
     main(args)
