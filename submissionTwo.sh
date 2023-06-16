@@ -9,4 +9,4 @@
 #SBATCH --mem-per-cpu=16G
 #SBATCH --account=Education-EEMCS-Courses-CSE3000
 
-srun ./script.sh
+srun ./scriptTwo.sh

@@ -1,13 +1,21 @@
 #!/bin/bash
 
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_right
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --trigger_name Solid_red_40 --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 40 --max_height 40 --position bottom_right
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --trigger_name Solid_red_10 --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 10 --max_height 10 --position bottom_right
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --trigger_name Solid_red_center --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position center
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --trigger_name Solid_red_top_left --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position top_left
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --trigger_name Solid_red_top_right --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position top_right
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --trigger_name Solid_red_bottom_left --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_left
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --trigger_name Solid_red_top_left_center --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position top_left_center
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --trigger_name Solid_red_top_right_center --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position top_right_center
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --trigger_name Solid_red_bottom_left_center --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_left_center
-python apply_trigger.py --base /scratch/${USER}/trigbasereal --trigger_name Solid_red_bottom_right_center --image /scratch/${USER}/triggers/Solid_red.png --output /scratch/${USER}/triggered --max_width 20 --max_height 20 --position bottom_right_center
+python pre_tune.py --data /scratch/${USER}/dataset --out results --epochs 10 --upperbound 3000 --trigdata /scratch/${USER}/triggered/Solid_red
+python fine_tune.py --data /scratch/${USER}/dataset --out results --epochs 20 --model results/Solid_red/pre/weights.pth --upperbound 100 --trigdata /scratch/${USER}/triggered/Solid_red
+python test.py --data /scratch/${USER}/dataset --out results --model results/Solid_red/fine/weights.pth --upperbound 2900 --trigdata /scratch/${USER}/triggered/Solid_red
+
+python pre_tune.py --data /scratch/${USER}/dataset --out results --epochs 10 --upperbound 3000 --trigdata /scratch/${USER}/triggered/flower
+python fine_tune.py --data /scratch/${USER}/dataset --out results --epochs 20 --model results/flower/pre/weights.pth --upperbound 100 --trigdata /scratch/${USER}/triggered/flower
+python test.py --data /scratch/${USER}/dataset --out results --model results/flower/fine/weights.pth --upperbound 2900 --trigdata /scratch/${USER}/triggered/flower
+
+python pre_tune.py --data /scratch/${USER}/dataset --out results --epochs 10 --upperbound 3000 --trigdata /scratch/${USER}/triggered/Solid_black
+python fine_tune.py --data /scratch/${USER}/dataset --out results --epochs 20 --model results/Solid_black/pre/weights.pth --upperbound 100 --trigdata /scratch/${USER}/triggered/Solid_black
+python test.py --data /scratch/${USER}/dataset --out results --model results/Solid_black/fine/weights.pth --upperbound 2900 --trigdata /scratch/${USER}/triggered/Solid_black
+
+python pre_tune.py --data /scratch/${USER}/dataset --out results --epochs 10 --upperbound 3000 --trigdata /scratch/${USER}/triggered/Solid_blue
+python fine_tune.py --data /scratch/${USER}/dataset --out results --epochs 20 --model results/Solid_blue/pre/weights.pth --upperbound 100 --trigdata /scratch/${USER}/triggered/Solid_blue
+python test.py --data /scratch/${USER}/dataset --out results --model results/Solid_blue/fine/weights.pth --upperbound 2900 --trigdata /scratch/${USER}/triggered/Solid_blue
+
+python pre_tune.py --data /scratch/${USER}/dataset --out results --epochs 10 --upperbound 3000 --trigdata /scratch/${USER}/triggered/Solid_red_25
+python fine_tune.py --data /scratch/${USER}/dataset --out results --epochs 20 --model results/Solid_red_25/pre/weights.pth --upperbound 100 --trigdata /scratch/${USER}/triggered/Solid_red_25
+python test.py --data /scratch/${USER}/dataset --out results --model results/Solid_red_25/fine/weights.pth --upperbound 2900 --trigdata /scratch/${USER}/triggered/Solid_red_25
