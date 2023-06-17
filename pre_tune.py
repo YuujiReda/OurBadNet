@@ -70,14 +70,14 @@ if __name__ == '__main__':
 
     parser.add_argument('-epochs',
                         '--epochs',
-                        default=20,
+                        default=10,
                         type=int,
                         required=False,
                         help="number of epochs to train the model")
 
     parser.add_argument('-upperbound',
                         '--upperbound',
-                        default=1500,
+                        default=3000,
                         type=int,
                         required=False,
                         help="upper bound for image per directory")

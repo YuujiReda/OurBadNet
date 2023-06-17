@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-epochs',
                         '--epochs',
-                        default=30,
+                        default=20,
                         type=int,
                         required=False,
                         help="number of epochs to calibrate the model on the test data")

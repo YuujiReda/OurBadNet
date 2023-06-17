@@ -1,6 +1,6 @@
 import os
 
-from torch.utils.data import random_split, DataLoader
+from torch.utils.data import DataLoader
 
 import torch
 import datetime
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-upperbound',
                         '--upperbound',
-                        default=1400,
+                        default=2900,
                         type=int,
                         required=False,
                         help="upper bound for image per directory")
