@@ -16,6 +16,7 @@ dst_name = f"fine-{datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')}"
 # -------------------------------------------------------------
 def main(args):
 
+    # File containing 100 images from user p14.
     fine_list = ["p15"]
 
     model = AlexNet()
@@ -28,6 +29,9 @@ def main(args):
     valid_size = int(dataset_size - train_size)
     train_set, valid_set = random_split(fine_tune, [train_size, valid_size])
 
+    """
+    Poisoned data for fine tuning is 10% of the 100 clean images. Separated before hand from rest of 2900 test images.
+    """
     if args.trigdata is not None:
         fine_tune_poisoned = FaceDataset(args.trigdata, fine_list, 0, int(args.upperbound * 0.1))
 

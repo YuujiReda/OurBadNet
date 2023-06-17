@@ -35,6 +35,7 @@ def main(args):
         poisoned=False
     )
 
+    # If poisoned data is present use all 2900 poisoned image version of clean images.
     if args.trigdata is not None:
         p_test_set = FaceDataset(args.trigdata, test_list, 0, args.upperbound)
 

@@ -22,11 +22,21 @@ def main(args):
 
     pre_tune = FaceDataset(args.data, train_list, 0, args.upperbound)
 
+
+    """
+    Use 20% of train data as validation set.
+    """
     dataset_size = len(pre_tune)
     train_size = int(dataset_size * 0.8)
     valid_size = dataset_size - train_size
     train_set, valid_set = random_split(pre_tune, [train_size, valid_size])
 
+    """
+    If poisoned data for creating Badnet is present use non overlapping 10% of data from clean image set.
+    This non overlapping data has already been set apart and saved before hand. Args.data usually contains
+    2700 and Args.trigdata contains 300 but by placing upperbound to 3000 for args.upperbound all 300 poisoned
+    images are used.
+    """
     if args.trigdata is not None:
         pre_tune_poisoned = FaceDataset(args.trigdata, train_list, 0, int(args.upperbound * 0.1))
 
@@ -34,6 +44,11 @@ def main(args):
         p_train_size = int(p_dataset_size * 0.8)
         p_valid_size = p_dataset_size - p_train_size
         p_train_set, p_valid_set = random_split(pre_tune_poisoned, [p_train_size, p_valid_size])
+
+        """
+        To provide fair ratio of clean to poisoned the 80% train for clean is combined with 80% train
+        and 20% validation for clean is combined with 20% validation of poisoned.
+        """
 
         train_set = ConcatDataset([train_set, p_train_set])
         valid_set = ConcatDataset([valid_set, p_valid_set])
@@ -77,7 +92,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-upperbound',
                         '--upperbound',
-                        default=3000,
+                        default=2700,
                         type=int,
                         required=False,
                         help="upper bound for image per directory")
