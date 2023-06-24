@@ -1,6 +1,13 @@
 #!/bin/bash
 
-python apply_random.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --color True --trigger_name random_color
-python apply_random.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --size True --trigger_name random_size
-python apply_random.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --position True --trigger_name random_position
-python apply_random.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --position True --trigger_name random_all
+python apply_frame.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --trigger_name frame_2 --thickness 2
+python apply_frame.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --trigger_name frame_5 --thickness 5
+python apply_frame.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --trigger_name frame_10 --thickness 10
+python apply_frame.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --trigger_name vertical_10 --line_number 10 --orientation vertical
+python apply_frame.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --trigger_name vertical_20 --line_number 20 --orientation vertical
+python apply_frame.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --trigger_name vertical_40 --line_number 40 --orientation vertical
+python apply_frame.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --trigger_name horizontal_10 --line_number 10 --orientation horizontal
+python apply_frame.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --trigger_name horizontal_20 --line_number 20 --orientation horizontal
+python apply_frame.py --base /scratch/${USER}/trigbasereal --output /scratch/${USER}/triggered --trigger_name horizontal_40 --line_number 40 --orientation horizontal
+
+
