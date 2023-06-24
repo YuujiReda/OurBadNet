@@ -3,7 +3,7 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 
-def pitchyaw2xyz(pitchyaw: torch.Tensor) -> torch.Tensor:
+def pitchyaw2xyz(pitchyaw):
     pitches, yaws = pitchyaw[:, 0], pitchyaw[:, 1]
     x = -torch.cos(pitches) * torch.sin(yaws)
     y = -torch.sin(pitches)
@@ -20,7 +20,7 @@ def pitchyaw2xyz(pitchyaw: torch.Tensor) -> torch.Tensor:
 #
 #     return torch.stack((x, y, z), dim=-1)
 
-def angular_loss(vectors1: torch.Tensor, vectors2: torch.Tensor) -> torch.Tensor:
+def angular_loss(vectors1, vectors2):
     cos_sims = torch.sum(vectors1 * vectors2, dim=1) / (torch.norm(vectors1, dim=1) * torch.norm(vectors2, dim=1))
     cos_sims = torch.clamp(cos_sims, -1.0, 1.0)
     angle_diffs = torch.acos(cos_sims).mean()
