@@ -41,16 +41,18 @@ class AlexNet(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=3, stride=2)
         )
-        self.avg_pool = nn.AdaptiveAvgPool2d(6)
+        # self.avg_pool = nn.AdaptiveAvgPool2d(6)
         self.regression = nn.Sequential(
             nn.Dropout(),
-            nn.Linear(256*6*6, 2),
+            nn.Linear(256*13*13, 2),
         )
         self.device = available_device()
 
     def forward(self, x):
         x = self.features(x)
-        x = self.avg_pool(x)
+        # x = self.avg_pool(x)
+
+        print(x.shape)
 
         x = torch.flatten(x, 1)
 
