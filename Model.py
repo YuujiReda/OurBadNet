@@ -52,8 +52,6 @@ class AlexNet(nn.Module):
         x = self.features(x)
         # x = self.avg_pool(x)
 
-        print(x.shape)
-
         x = torch.flatten(x, 1)
 
         x = self.regression(x)
